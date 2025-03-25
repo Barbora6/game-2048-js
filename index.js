@@ -48,9 +48,27 @@ function setGame() {
       document.getElementById("board").append(tile);
     }
   }
+
+  setTwo();
+  setTwo();
+}
+
+function hasEmptyTile() {
+  for (let r = 0; r < rows; r++) {
+    for (let c = 0; c < columns; c++) {
+      if (board[r][c] == 0) {
+        return true;
+      }
+    }
+  }
+  return false;
 }
 
 function setTwo() {
+  if (!hasEmptyTile()) {
+    return;
+  }
+
   let found = false;
   while (!found) {
     // random r, c
@@ -62,6 +80,7 @@ function setTwo() {
       let tile = document.getElementById(r.toString() + "." + c.toString());
       tile.innerText = "2";
       tile.classList.add("x2");
+      found = true;
     }
   }
 }
@@ -92,13 +111,18 @@ function updateTile(tile, num) {
 document.addEventListener("keyup", (e) => {
   if (e.code === "ArrowLeft") {
     slideLeft();
+    setTwo();
   } else if (e.code === "ArrowRight") {
     slideRight();
+    setTwo();
   } else if (e.code === "ArrowUp") {
     slideUp();
+    setTwo();
   } else if (e.code === "ArrowDown") {
     slideDown();
+    setTwo();
   }
+  document.getElementById("score").innerText = score;
 });
 
 // Odstraní všechny nuly z pole.
